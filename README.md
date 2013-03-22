@@ -55,11 +55,11 @@ To create a server, use `require('json-websocket').server(opts);`.
 
 Options:
 
-* `httpServer`: A [http.Server](http://nodejs.org/api/http.html#http_class_http_server) object that the websocket will bind to.
-* `path`: The URL path the websocket will listen on in the server. Defaults to `/`.
-* `verbose`: Any truthy value will enable debug logging to `console.log`.
-* `protocol`: Name of the websocket protocol to support. Defaults to `'json-websocket'`.
-* `maxListeners`: Controls the maximum number of listeners that can be attached to the resulting EventEmitter. Use `0` for unlimited. Defaults to `10`.
+* `httpServer`: A [http.Server](http://nodejs.org/api/http.html#http_class_http_server) object that the websocket will bind to
+* `path`: The URL path the websocket will listen on in the server. Defaults to `/`
+* `verbose`: Any truthy value will enable debug logging to `console.log`
+* `protocol`: Name of the websocket protocol to support. Defaults to `'json-websocket'`
+* `maxListeners`: Controls the maximum number of listeners that can be attached to the resulting EventEmitter. Use `0` for unlimited. Defaults to `10`
 
 This returns an [Event Emitter](http://nodejs.org/api/events.html#events_class_events_emitter) with the following properties:
 
