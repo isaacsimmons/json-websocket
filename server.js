@@ -24,7 +24,7 @@ var serve = function(opts) {
 
     util.log('Client #' + id + ' connected', opts);
 
-    ws.on('message', util.handleMessage(opts, function(parsed) {
+    ws.on('message', util.handler(opts, function(parsed) {
       util.log('Got message from client #' + id, opts);
       parsed.splice(1, 0, id);
       events.emit.apply(events, parsed);

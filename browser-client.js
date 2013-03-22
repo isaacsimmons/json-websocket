@@ -15,7 +15,7 @@ var Client = function(opts) {
     events.emit(util.EVENTS.connect);
   };
 
-  ws.onmessage = util.handleMessage(opts, function(parsed) {
+  ws.onmessage = util.handler(opts, function(parsed) {
     events.emit.apply(events, parsed);
   });
 

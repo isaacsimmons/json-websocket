@@ -55,7 +55,7 @@ var send = function (opts, socket) {
   };
 };
 
-var handleMessage = function(opts, callback) {
+var handler = function(opts, callback) {
   return function(msg) {
     var parsed;
     try {
@@ -72,7 +72,6 @@ var handleMessage = function(opts, callback) {
 //TODO: turn this into some sort of generic object and wrap it with thin server and client objects?
 exports.EVENTS = EVENTS;
 exports.send = send;
-exports.parse = parse;
 exports.log = log;
-exports.handleMessage = handleMessage;
+exports.handler = handler;
 
