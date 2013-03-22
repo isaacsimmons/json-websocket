@@ -32,11 +32,14 @@ var connect = function(opts, callback) {
       conn.send(JSON.stringify(Array.prototype.slice.call(arguments)));
     };
 
+    if (opts.verbose) { conn.on('close', function() { console.log('Disconnected'); }); }
+
     client.messages = events;
     client.send = send;
     client.disconnect = conn.close;
 
-    callback(undefined, client);
+    callback(undefined, client); //TODO: give back the conn as well?
+    //Nah, lets hide all kinds of stuff, fuck getting access to the raw sockets
   });
 
   var url = [ 'ws://', opts.host || 'localhost', ':', opts.port || 80, opts.path || '/' ].join('');
