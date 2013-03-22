@@ -1,14 +1,12 @@
-# JSON WebSocket #
-
 JSON WebSocket is a lightweight wrapper around the [websocket](https://github.com/Worlize/WebSocket-Node) implementation. Event types and objects are automatically translated to and from JSON, and emitted as events when received.
 
-## Installation ##
+# Installation #
 
 Install JsonWebSocket using Node Package Manager (npm):
 
     npm install json-websocket
 
-## Usage ##
+# Usage #
 
 Example client (found in `examples/client.js`)
 
@@ -49,9 +47,9 @@ Example server (found in `examples/server.js`)
 
     http.listen(8000);
 
-## API ##
+# API #
 
-### Server ###
+## Server ##
 
 To create a server, use `require('json-websocket').server(opts);`.
 
@@ -65,46 +63,46 @@ Options:
 
 This returns an [Event Emitter](http://nodejs.org/api/events.html#events_class_events_emitter) with the following properties:
 
-####Event: 'js:connect'####
+###Event: 'js:connect'###
 `function (clientId) { }`
 
 Emitted each time a new client successfully connects.
 
-####Event: 'js:disconnect'####
+###Event: 'js:disconnect'###
 `function (clientId) { }`
 
 Emitted each time a client disconnects.
 
-####Event: 'js:error'####
+###Event: 'js:error'###
 `function (err) { }`
 
 Emitted on errors.
 
-####server.clients####
+###server.clients###
 
 An object mapping client identifiers to the underlaying websocket connections.
 
-####server.numClients####
+###server.numClients###
 
 The number of currently connected clients.
 
-####server.isReady(clientId)####
+###server.isReady(clientId)###
 
 Returns `true` if there is a connected client with the given identifier that is in the ready state and has no currently buffered outgoing data, `false` otherwise.
 
-####server.send(clientId, type, ...)####
+###server.send(clientId, type, ...)###
 
-### Client ###
+## Client ##
 
-### Browser ###
+## Browser ##
 
-## Testing ##
+# Testing #
 
 Run tests using Node Package Manager (npm):
 
     npm test
 
-## License ##
+# License #
 
 Copyright (c) 2013 Isaac Simmons
 
