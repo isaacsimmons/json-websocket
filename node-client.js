@@ -26,11 +26,11 @@ var Client = function(opts) {
 
     events.disconnect = function() {
       util.log('Disconnecting from websocket', opts);
-      ws.close();
+      conn.close();
     };
 
     events.isReady = function() {
-      return ws.bufferedAmount === 0; //TODO: also factor "readyState" in?
+      return conn.bufferedAmount === 0; //TODO: is this property the correct thing to check?
     };
 
     conn.on('message', util.handler(opts, function(parsed) {
@@ -43,13 +43,13 @@ var Client = function(opts) {
     });
 
     for(var i = 0; i < queue.length; i++) {
+      util.log('Sending queued ' + queue[i][0] + ' message');
       conn.send(JSON.stringify(queue[i]));
     }
     queue = undefined;
 
     events.emit(util.EVENTS.connect);
   });
-
 
   client.on('error', function(err) {
     util.log('Error connecting to ' + url + ': ' + err.toString(), opts);
@@ -59,6 +59,7 @@ var Client = function(opts) {
 
   events.send = function(type) {
     util.check(type, opts);
+    util.log('Queueing ' + type + ' message for later delivery');
     queue.push(Array.prototype.slice.call(arguments));
   };
 
@@ -70,7 +71,10 @@ var Client = function(opts) {
     return false;
   };
 
-  client.connect(url, opts.protocol || 'json-socket');
+  process.nextTick(function() {
+    client.connect(url, opts.protocol || 'json-socket');
+  });
+
   return events;
 };
 

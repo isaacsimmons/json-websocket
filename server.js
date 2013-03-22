@@ -42,6 +42,7 @@ var serve = function(opts) {
 
   var send = function(clientId, type) {
     util.check(type, opts);
+    util.log('Sending message to client #' + clientId);
     clients[clientId].send(JSON.stringify(Array.prototype.slice.call(arguments, 1)));
   };
 

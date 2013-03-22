@@ -12,6 +12,6 @@ client.on('js:connect', function() {
   });
   setTimeout(function() {
     client.send('update', 100);
-  }, 2000);
+  }, 1000);
+  setTimeout(client.disconnect, 2000);
 });
-
