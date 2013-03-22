@@ -3,7 +3,7 @@
 var WebSocketServer = require('websocket').server;
 var EventEmitter = require('events').EventEmitter;
 
-var parse = require('./util.js').parse;
+var util = require('./util.js');
 
 var serve = function(opts) {
   var server = new WebSocketServer(opts);
@@ -16,7 +16,7 @@ var serve = function(opts) {
     return function(msg) {
       var parsed;
       try {
-        parsed = parse(msg);
+        parsed = util.parse(msg);
       } catch (err) {
         if (opts.verbose) { console.log(err.toString()); }
         return;
@@ -45,8 +45,7 @@ var serve = function(opts) {
   });
 
   var send = function(clientId, type) {
-    if (opts.verbose) { console.log('Sending '  + type + ' message to client #' + clientId); }
-    clients[clientId].send(JSON.stringify(Array.prototype.slice.call(arguments, 1)));
+    util.send(opts, clients[clientId]).apply(undefined, Array.prototype.slice.call(arguments, 1));
   };
 
   server.send = send;
