@@ -7,7 +7,11 @@ var util = require('./util.js');
 
 var serve = function(opts) {
   var server = new WebSocketServer(opts);
-  var messageEvents = new EventEmitter(opts);
+  var events = new EventEmitter();
+  if (opts.maxListeners !== undefined) {
+    events.setMaxListeners(opts.maxListeners);
+  }
+
   var clients = {};
   var numClients = 0;
   var counter = 0;
@@ -18,27 +22,26 @@ var serve = function(opts) {
       try {
         parsed = util.parse(msg);
       } catch (err) {
-        if (opts.verbose) { console.log(err.toString()); }
+        util.log(err.toString(), opts);
         return;
       }
       Array.prototype.splice.apply(parsed, [1, 0, clientId]);
-      if (opts.verbose) { console.log('Got ' + parsed[0] + ' message from client #' + parsed[1]); }
-      messageEvents.emit.apply(messageEvents, parsed);
+      util.log('Got ' + parsed[0] + ' message from client #' + parsed[1], opts);
+      events.emit.apply(events, parsed);
     };
   };
 
   server.on('request', function(request) {
-    //TODO: don't always auto-accept
     var ws = request.accept(opts.protocol || 'json-socket');
     var id = counter++;
     numClients++;
     clients[id] = ws;
-    if (opts.verbose) { console.log('Client #' + id + ' connected'); }
+    util.log('Client #' + id + ' connected', opts);
     ws.on('message', handleMessage(id));
-    server.emit('clientconnect', id, ws);
+    events.emit(util.EVENTS.connect, id, ws);
     ws.on('close', function() {
-      if (opts.verbose) { console.log('Client #' + id + ' disconnected'); }
-      server.emit('clientdisconnect', id);
+      util.log('Client #' + id + ' disconnected', opts);
+      events.emit(util.EVENTS.disconnect, id);
       numClients--;
       delete clients[id];
     });
@@ -48,11 +51,11 @@ var serve = function(opts) {
     util.send(opts, clients[clientId]).apply(undefined, Array.prototype.slice.call(arguments, 1));
   };
 
-  server.send = send;
-  server.clients = clients;
-  server.messages = messageEvents;
-  server.numClients = numClients;
-  return server;
+  events.send = send;
+  events.clients = clients;
+  events.numClients = numClients;
+//  events.shutdown = shutdown;
+  return events;
 };
 
 module.exports = serve;

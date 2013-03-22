@@ -7,15 +7,15 @@ var server = Server({ httpServer: http, verbose: true });
 
 var clientValue = null;
 
-server.messages.on('hello', function(clientId, greeting, value) {
+server.on('hello', function(clientId, greeting, value) {
   clientValue = value;
 });
 
-server.messages.on('update', function(clientId, value) {
+server.on('update', function(clientId, value) {
   clientValue = value;
 });
 
-server.on('clientconnect', function(id) {
+server.on('js:connect', function(id) {
   server.send(id, 'hello', 'Greetings, client #' + id, 123);
 });
 
