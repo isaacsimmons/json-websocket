@@ -1,11 +1,11 @@
 {
-  "name": "json-socket",
+  "name": "json-websocket",
   "version": "0.0.1",
   "author": {
     "name": "Isaac Simmons",
     "email": "isaac.simmons@gmail.com"
   },
-  "description": "JSON Socket. Simple abstraction on top of websockets to send 'typed' JSON objects and emit received messages by type.",
+  "description": "JSON WebSocket. Simple abstraction on top of websockets to send 'typed' JSON objects and emit received messages by type. Suitable for use in Node or the browser.",
   "keywords": [
     "json", "websocket", "messaging"
   ],
