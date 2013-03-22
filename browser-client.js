@@ -29,7 +29,10 @@ var Client = function(opts) {
     events.emit(util.EVENTS.disconnect);
   };
 
-  events.send = util.send(opts, ws);
+  events.send = function(type) {
+    util.check(type, opts);
+    ws.send(JSON.stringify(Array.prototype.slice.call(arguements)));
+  };
 
   events.disconnect = function() {
     util.log('Disconnecting from websocket', opts);

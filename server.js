@@ -41,7 +41,8 @@ var serve = function(opts) {
   });
 
   var send = function(clientId, type) {
-    util.send(opts, clients[clientId]).apply(undefined, Array.prototype.slice.call(arguments, 1));
+    util.check(type, opts);
+    clients[clientId].send(JSON.stringify(Array.prototype.slice.call(arguments, 1)));
   };
 
   events.send = send;

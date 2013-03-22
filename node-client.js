@@ -7,6 +7,7 @@ var util = require('./util.js');
 
 var Client = function(opts) {
   var events = new EventEmitter();
+  var queue = [];
 
   if (opts.maxListeners !== undefined) {
     events.setMaxListeners(opts.maxListeners);
@@ -18,7 +19,10 @@ var Client = function(opts) {
   client.on('connect', function(conn) {
     util.log('Connected to ' + url, opts);
 
-    events.send = util.send(opts, conn);
+    events.send = function(type) {
+      util.check(type, opts);
+      conn.send(JSON.stringify(Array.prototype.slice.call(arguments)));
+    };
 
     events.disconnect = function() {
       util.log('Disconnecting from websocket', opts);
@@ -38,6 +42,11 @@ var Client = function(opts) {
       events.emit(util.EVENTS.disconnect);
     });
 
+    for(var i = 0; i < queue.length; i++) {
+      conn.send(JSON.stringify(queue[i]));
+    }
+    queue = undefined;
+
     events.emit(util.EVENTS.connect);
   });
 
@@ -47,9 +56,11 @@ var Client = function(opts) {
     events.emit(util.EVENTS.error);
   }); //TODO: is this the right event name for failed connections?
 
-  events.send = util.send(opts, function(type) {
-    throw new Error('Not connected yet'); //TODO: queue these and send later?
-  });
+
+  events.send = function(type) {
+    util.check(type, opts);
+    queue.push(Array.prototype.slice.call(arguments));
+  };
 
   events.disconnect = function() {
     util.log('Socket not connected yet', opts);

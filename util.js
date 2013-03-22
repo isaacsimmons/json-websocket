@@ -42,17 +42,14 @@ var RESERVED_WORDS = (function() {
   return tmp;
 })();
 
-var send = function (opts, socket) {
-  return function (type) {
-    if (typeof type !== 'string') {
-      throw new Error('Message type must be a string');
-    }
-    if (Object.prototype.hasOwnProperty.call(RESERVED_WORDS, type)) {
-      throw new Error('Cannot send message type ' + type);
-    }
-    log('Sending ' + type + ' message', opts);
-    socket.send(JSON.stringify(Array.prototype.slice.call(arguments)));
-  };
+var check = function (type, opts) {
+  if (typeof type !== 'string') {
+    throw new Error('Message type must be a string');
+  }
+  if (Object.prototype.hasOwnProperty.call(RESERVED_WORDS, type)) {
+    throw new Error('Cannot send message type ' + type);
+  }
+  log('Ready to send ' + type + ' message', opts);
 };
 
 var handler = function(opts, callback) {
@@ -71,7 +68,7 @@ var handler = function(opts, callback) {
 
 //TODO: turn this into some sort of generic object and wrap it with thin server and client objects?
 exports.EVENTS = EVENTS;
-exports.send = send;
+exports.check = check;
 exports.log = log;
 exports.handler = handler;
 
