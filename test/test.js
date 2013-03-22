@@ -1,11 +1,11 @@
 'use strict';
 
 var http = require('http').createServer();
-var Server = require('../lib/main.js').server;
+var main = require('../lib/main.js');
 
-var SERVER_VAL = 123;
+var SERVER_VAL = new Date().getTime();
 
-var server = Server({ httpServer: http, verbose: true });
+var server = main.server({ httpServer: http, verbose: true });
 
 var clients = {};
 
@@ -29,5 +29,21 @@ server.on('js:disconnect', function(clientId) {
   delete clients[clientId];
 });
 
-http.listen(8000);
+http.listen();
+var PORT = http.address().port;
 
+var client = main.client({ host: 'localhost', port: PORT, verbose: true });
+
+client.on('hello', function(greeting, value) {
+  client.send('update', value);
+});
+
+client.on('js:connect', function() {
+  client.send('hello', 'Websocket client here', 0);
+});
+
+setTimeout(function() {
+  client.send('update', 100);
+  client.disconnect();
+  http.close();
+}, 1000);

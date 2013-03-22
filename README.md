@@ -8,10 +8,44 @@ Install JsonWebSocket using Node Package Manager (npm):
 
 ## Usage ##
 
-Simple example (found in `examples/simple.js`)
+Example client (found in `examples/client.js`)
 
-    Include an example here
-    //And put it in the examples folder
+    var main = require('../lib/main.js');
+
+    var client = main.client({ host: 'localhost', port: 8000, verbose: true });
+
+    client.on('js:connect', function() {
+      client.send('greeting', 'Websocket client here');
+    });
+
+    client.on('tick', function(serverTime) {
+      //Emitted when the server sends a "tick" event
+    });
+
+    setTimeout(function() {
+      client.disconnect();
+    }, 1000);
+
+Example server (found in `examples/server.js`)
+
+    var http = require('http').createServer();
+    var main = require('../lib/main.js');
+
+    var server = main.server({ httpServer: http, verbose: true });
+
+    server.on('update', function(clientId, value) {
+      //Process "update" event from client here
+    });
+
+    server.on('js:connect', function(clientId) {
+      server.send(clientId, 'greet', 'Greetings, client #' + clientId);
+    });
+
+    server.on('js:disconnect', function(clientId) {
+      //Client disconnected
+    });
+
+    http.listen(8000);
 
 ## API ##
 
