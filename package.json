@@ -9,18 +9,18 @@
   "keywords": [
     "json", "websocket", "messaging"
   ],
-  "homepage": "https://bitbucket.org/arcticfox/json-socket",
-  "bugs": "https://bitbucket.org/arcticfox/json-socket/issues",
+  "homepage": "https://bitbucket.org/arcticfox/json-websocket",
+  "bugs": "https://bitbucket.org/arcticfox/json-websocket/issues",
   "main": "./lib/main",
   "repository": {
     "type": "hg",
-    "url": "ssh://hg@bitbucket.org/arcticfox/json-socket"
+    "url": "ssh://hg@bitbucket.org/arcticfox/json-websocket"
   },
   "dependencies": {
     "websocket": "1.x"
   },
   "license": {
     "type": "MIT",
-    "url": "https://bitbucket.org/arcticfox/json-socket/src/default/LICENSE"
+    "url": "https://bitbucket.org/arcticfox/json-websocket/src/default/LICENSE"
   }
 }
