@@ -37,7 +37,7 @@ var connect = function(opts, callback) {
     callback(undefined, client);
   });
 
-  client.connect('ws://' + opts.host + ':' + opts.port + (opts.path ? '/' + opts.path : '/'), opts.protocol);
-}
+  client.connect('ws://' + opts.host + ':' + opts.port + (opts.path ? '/' + opts.path : '/'), opts.protocol || 'json-socket');
+};
 
 module.exports = connect;

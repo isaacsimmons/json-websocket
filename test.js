@@ -1,12 +1,12 @@
 'use strict';
 
-var JS = require('./main.js');
+var jsonSocket = require('./main.js');
 
 var http = require('http');
 
 var httpServer = http.createServer();
 
-var server = JS.server({ httpServer: httpServer, verbose: true });
+var server = jsonSocket.server({ httpServer: httpServer, verbose: true });
 
 server.messages.on('123', function(val) {
   console.log('server got 123: ' + JSON.stringify(val));
@@ -23,7 +23,7 @@ server.on('clientconnect', function(socket, id) {
 
 httpServer.listen(8000);
 
-JS.client({ host: 'localhost', port: 8000, verbose: true }, function(err, client) {
+jsonSocket.client({ host: 'localhost', port: 8000, verbose: true }, function(err, client) {
   client.messages.on('abc', function(val) {
     console.log('client got abc: ' + JSON.stringify(val));
   });

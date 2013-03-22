@@ -26,7 +26,7 @@ var serve = function(opts) {
 
   server.on('request', function(request) {
     //TODO: don't always auto-accept
-    var ws = request.accept(opts.protocol);
+    var ws = request.accept(opts.protocol || 'json-socket');
     var id = counter++;
     numClients++;
     clients[id] = ws;
