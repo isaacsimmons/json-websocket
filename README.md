@@ -56,6 +56,7 @@ Example server (found in `examples/server.js`)
 To create a server, use `require('json-websocket').server(opts);`.
 
 Options:
+
 * `httpServer`: A [http.Server](http://nodejs.org/api/http.html#http_class_http_server) object that the websocket will bind to.
 * `path`: The URL path the websocket will listen on in the server. Defaults to `/`.
 * `verbose`: Any truthy value will enable debug logging to `console.log`.
