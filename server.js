@@ -16,35 +16,28 @@ var serve = function(opts) {
   var numClients = 0;
   var counter = 0;
 
-  var handleMessage = function(clientId) {
-    return function(msg) {
-      var parsed;
-      try {
-        parsed = util.parse(msg);
-      } catch (err) {
-        util.log(err.toString(), opts);
-        return;
-      }
-      Array.prototype.splice.apply(parsed, [1, 0, clientId]);
-      util.log('Got ' + parsed[0] + ' message from client #' + parsed[1], opts);
-      events.emit.apply(events, parsed);
-    };
-  };
-
   server.on('request', function(request) {
     var ws = request.accept(opts.protocol || 'json-socket');
     var id = counter++;
     numClients++;
     clients[id] = ws;
+
     util.log('Client #' + id + ' connected', opts);
-    ws.on('message', handleMessage(id));
-    events.emit(util.EVENTS.connect, id, ws);
+
+    ws.on('message', util.handleMessage(opts, function(parsed) {
+      util.log('Got message from client #' + id, opts);
+      parsed.splice(1, 0, id);
+      events.emit.apply(events, parsed);
+    }));
+
     ws.on('close', function() {
       util.log('Client #' + id + ' disconnected', opts);
       events.emit(util.EVENTS.disconnect, id);
       numClients--;
       delete clients[id];
     });
+
+    events.emit(util.EVENTS.connect, id, ws);
   });
 
   var send = function(clientId, type) {
@@ -54,7 +47,6 @@ var serve = function(opts) {
   events.send = send;
   events.clients = clients;
   events.numClients = numClients;
-//  events.shutdown = shutdown;
   return events;
 };
 

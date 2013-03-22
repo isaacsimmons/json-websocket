@@ -15,7 +15,9 @@ var Client = function(opts) {
     events.emit(util.EVENTS.connect);
   };
 
-  ws.onmessage = util.handleMessage(opts, events);
+  ws.onmessage = util.handleMessage(opts, function(parsed) {
+    events.emit.apply(events, parsed);
+  });
 
   ws.onerror = function(err) {
     util.log('Error connecting to ' + url + ': ' + err.toString(), opts);

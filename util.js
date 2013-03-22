@@ -55,7 +55,7 @@ var send = function (opts, socket) {
   };
 };
 
-var handleMessage = function(opts, events) {
+var handleMessage = function(opts, callback) {
   return function(msg) {
     var parsed;
     try {
@@ -65,7 +65,7 @@ var handleMessage = function(opts, events) {
       return;
     }
     log('Got ' + parsed[0] + ' message', opts);
-    events.emit.apply(events, parsed);
+    callback(parsed);
   };
 };
 
@@ -75,3 +75,4 @@ exports.send = send;
 exports.parse = parse;
 exports.log = log;
 exports.handleMessage = handleMessage;
+

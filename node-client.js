@@ -29,7 +29,9 @@ var Client = function(opts) {
       return ws.bufferedAmount === 0; //TODO: also factor "readyState" in?
     };
 
-    conn.on('message', util.handleMessage(opts, events));
+    conn.on('message', util.handleMessage(opts, function(parsed) {
+      events.emit.apply(events, parsed);
+    }));
 
     conn.on('close', function() {
       util.log('Websocket disconnected', opts);
