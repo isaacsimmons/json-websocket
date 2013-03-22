@@ -1,5 +1,7 @@
 'use strict';
 
+var EventEmitter = require('events').EventEmitter;
+
 var Client = function(opts) {
   var events = new EventEmitter();
 
