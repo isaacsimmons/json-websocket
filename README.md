@@ -78,6 +78,11 @@ Emitted each time a client disconnects.
 
 Emitted on errors.
 
+###Event: \*###
+`function (clientId, ...) { }`
+
+All messages received by clients are emitted as events with the "type" of the sent message. 
+
 ###server.clients###
 
 An object mapping client identifiers to the underlaying websocket connections.
@@ -92,9 +97,53 @@ Returns `true` if there is a connected client with the given identifier that is 
 
 ###server.send(clientId, type, ...)###
 
+Send a message to the given client of the given type. "type" must be a String. Any other arguments provided to this function will be transmitted to the client and attached to the emitted event.
+
+`js:connect`, `js:disconnect`, and `js:error` are Illegal message types.
+
 ## Client ##
 
+To create a client, use `require('json-websocket').client(opts);`.
+
+Options:
+
+* `hostname`: The host that the client will attempt to connect to. Defaults to `localhost`
+* `port`: The port that the client will attempt to connect to. Defaults to `80`
+* `path`: The URL path that the client will attempt to connect to. Defaults to `/`
+* `verbose`: Any truthy value will enable debug logging to `console.log`
+* `protocol`: Name of the websocket protocol to request. Defaults to `'json-websocket'`
+* `maxListeners`: Controls the maximum number of listeners that can be attached to the resulting EventEmitter. Use `0` for unlimited. Defaults to `10`
+
+###Event: 'js:connect'###
+`function () { }`
+
+Emitted when the socket successfully connects.
+
+###Event: 'js:disconnect'###
+`function () { }`
+
+Emitted when the socket is closed.
+
+###Event: 'js:error'###
+`function (err) { }`
+
+Emitted on a connection failure.
+
+###Event: \*###
+
+All messages received by the server are emitted as events with the "type" of the sent message.
+
+###client.send(type, ...)###
+
+###client.disconnect()###
+
+###client.isReady()###
+
 ## Browser ##
+
+JSON WebSocket can also be used in the browser with no dependency on the node [websocket](https://github.com/Worlize/WebSocket-Node)] module relying instead on the browser's implementation.
+
+In order to do this, you should include `./lib/browser.js` using a CommonJS bundler.
 
 # Testing #
 
