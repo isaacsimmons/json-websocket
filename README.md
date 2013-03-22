@@ -83,6 +83,10 @@ Emitted on errors.
 
 All messages received by clients are emitted as events with the "type" of the sent message. 
 
+###server.send(clientId, type, ...)###
+
+Send a message to the given client of the given type. `type` must be a `String` and cannot start with "js:". Any additional arguments provided to this function will be transmitted to the client and attached to the emitted event.
+
 ###server.clients###
 
 An object mapping client identifiers to the underlaying websocket connections.
@@ -94,12 +98,6 @@ The number of currently connected clients.
 ###server.isReady(clientId)###
 
 Returns `true` if there is a connected client with the given identifier that is in the ready state and has no currently buffered outgoing data, `false` otherwise.
-
-###server.send(clientId, type, ...)###
-
-Send a message to the given client of the given type. "type" must be a String. Any other arguments provided to this function will be transmitted to the client and attached to the emitted event.
-
-`js:connect`, `js:disconnect`, and `js:error` are Illegal message types.
 
 ## Client ##
 
@@ -135,7 +133,7 @@ All messages received by the server are emitted as events with the "type" of the
 
 ###client.send(type, ...)###
 
-Send a message to the server with the given type. Type must be a `String` and cannot be `js:connect`, `js:disconnect`, or `js:error`. Any additional arguments will be sent along to the server and attached to the emitted event.
+Send a message to the server with the given type. `type` must be a `String` and cannot start with "js:". Any additional arguments will be sent along to the server and attached to the emitted event.
 
 Messages sent before the `js:connect` event has been emitted will be queued and sent once the connection is established.
 
