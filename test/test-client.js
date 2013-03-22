@@ -1,6 +1,6 @@
 'use strict';
 
-var Client = require('./main.js').client;
+var Client = require('../lib/main.js').client;
 
 var client = Client({ host: 'localhost', port: 8000, verbose: true });
 

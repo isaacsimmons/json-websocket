@@ -1,7 +1,7 @@
 'use strict';
 
 var http = require('http').createServer();
-var Server = require('./main.js').server;
+var Server = require('../lib/main.js').server;
 
 var server = Server({ httpServer: http, verbose: true });
 
