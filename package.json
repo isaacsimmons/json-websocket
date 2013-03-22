@@ -1,3 +1,6 @@
 {
-
+  "name": "json-socket",
+  "description": "JSON Socket. Simple abstraction on top of websockets to send 'typed' JSON messages and subscribe to them by event listeners",
+  "dependencies": {
+  }
 }
