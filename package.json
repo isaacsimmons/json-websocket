@@ -1,6 +1,6 @@
 {
   "name": "json-websocket",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Isaac Simmons",
     "email": "isaac.simmons@gmail.com"
@@ -9,12 +9,16 @@
   "keywords": [
     "json", "websocket", "messaging"
   ],
-  "homepage": "https://bitbucket.org/arcticfox/json-websocket",
-  "bugs": "https://bitbucket.org/arcticfox/json-websocket/issues",
+  "homepage": {
+    "url": "https://bitbucket.org/arcticfox/json-websocket"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/arcticfox/json-websocket/issues"
+  },
   "main": "./lib/main",
   "repository": {
     "type": "hg",
-    "url": "ssh://hg@bitbucket.org/arcticfox/json-websocket"
+    "url": "https://bitbucket.org/arcticfox/json-websocket"
   },
   "scripts": {
     "test": "test/test.js"
