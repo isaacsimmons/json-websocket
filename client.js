@@ -9,7 +9,7 @@ var connect = function(opts, callback) {
   var client = new WebSocketClient();
 
   client.on('connect', function(conn) {
-
+    if (opts.verbose) { console.log('Connected'); }
     var events = new EventEmitter(opts);
 
     conn.on('message', function(msg) {
@@ -20,6 +20,7 @@ var connect = function(opts, callback) {
         if (opts.verbose) { console.log('Trouble parsing JSON from message on websocket: ' + parseError.message); }
         return;
       }
+      if (opts.verbose) { console.log('Got ' + parsed[0] + ' message'); }
       events.emit.apply(events, parsed);
     });
 
@@ -27,6 +28,7 @@ var connect = function(opts, callback) {
       if (typeof type !== 'string') {
         throw new Error('Message type must be a string');
       }
+      if (opts.verbose) { console.log('Sending ' + type + ' message'); }
       conn.send(JSON.stringify(Array.prototype.slice.call(arguments)));
     };
 
@@ -37,7 +39,8 @@ var connect = function(opts, callback) {
     callback(undefined, client);
   });
 
-  client.connect('ws://' + opts.host + ':' + opts.port + (opts.path ? '/' + opts.path : '/'), opts.protocol || 'json-socket');
+  var url = [ 'ws://', opts.host || 'localhost', ':', opts.port || 80, opts.path || '/' ].join('');
+  client.connect(url, opts.protocol || 'json-socket');
 };
 
 module.exports = connect;

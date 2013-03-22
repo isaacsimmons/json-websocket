@@ -19,7 +19,10 @@ var serve = function(opts) {
         parsed = parse(msg);
       } catch (err) {
         if (opts.verbose) { console.log(err.toString()); }
+        return;
       }
+      Array.prototype.splice.apply(parsed, [1, 0, clientId]);
+      if (opts.verbose) { console.log('Got ' + parsed[0] + ' message from client #' + parsed[1]); }
       messageEvents.emit.apply(messageEvents, parsed);
     };
   };
@@ -30,9 +33,11 @@ var serve = function(opts) {
     var id = counter++;
     numClients++;
     clients[id] = ws;
+    if (opts.verbose) { console.log('Client #' + id + ' connected'); }
     ws.on('message', handleMessage(id));
-    server.emit('clientconnect', ws, id);
+    server.emit('clientconnect', id, ws);
     ws.on('close', function() {
+      if (opts.verbose) { console.log('Client #' + id + ' disconnected'); }
       server.emit('clientdisconnect', id);
       numClients--;
       delete clients[id];
@@ -40,6 +45,7 @@ var serve = function(opts) {
   });
 
   var send = function(clientId, type) {
+    if (opts.verbose) { console.log('Sending '  + type + ' message to client #' + clientId); }
     clients[clientId].send(JSON.stringify(Array.prototype.slice.call(arguments, 1)));
   };
 
