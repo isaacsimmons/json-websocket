@@ -141,7 +141,7 @@ All messages received by the server are emitted as events with the "type" of the
 
 ## Browser ##
 
-JSON WebSocket can also be used in the browser with no dependency on the node [websocket](https://github.com/Worlize/WebSocket-Node)] module relying instead on the browser's implementation.
+JSON WebSocket can also be used in the browser with no dependency on the node [websocket](https://github.com/Worlize/WebSocket-Node) module relying instead on the browser's implementation.
 
 In order to do this, you should include `./lib/browser.js` using a CommonJS bundler.
 
