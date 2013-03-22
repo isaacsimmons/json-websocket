@@ -135,9 +135,17 @@ All messages received by the server are emitted as events with the "type" of the
 
 ###client.send(type, ...)###
 
+Send a message to the server with the given type. Type must be a `String` and cannot be `js:connect`, `js:disconnect`, or `js:error`. Any additional arguments will be sent along to the server and attached to the emitted event.
+
+Messages sent before the `js:connect` event has been emitted will be queued and sent once the connection is established.
+
 ###client.disconnect()###
 
+Closes the websocket connection.
+
 ###client.isReady()###
+
+Returns `true` if the websocket connection is established, ready, and has no buffered outgoing data, `false` otherwise.
 
 ## Browser ##
 
