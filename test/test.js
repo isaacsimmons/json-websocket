@@ -40,6 +40,12 @@ client.on('hello', function(greeting, value) {
   client.send('update', value);
 });
 
+try {
+  client.send('js:illegalValue');
+} catch (err) {
+  console.log('Rejected illegal send value');
+}
+
 client.on('js:connect', function() {
   client.send('hello', 'Websocket client here', 0);
 });
