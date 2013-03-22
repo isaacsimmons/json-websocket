@@ -17,7 +17,7 @@
     "url": "ssh://hg@bitbucket.org/arcticfox/json-websocket"
   },
   "scripts": {
-    "test": "node ./test/test.js"
+    "test": "test/test.js"
   },
   "dependencies": {
     "websocket": "1.x"
