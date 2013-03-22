@@ -11,7 +11,7 @@
   ],
   "homepage": "https://bitbucket.org/arcticfox/json-socket",
   "bugs": "https://bitbucket.org/arcticfox/json-socket/issues",
-  "main": "./main",
+  "main": "./lib/main",
   "repository": {
     "type": "hg",
     "url": "ssh://hg@bitbucket.org/arcticfox/json-socket"
@@ -19,5 +19,8 @@
   "dependencies": {
     "websocket": "1.x"
   },
-  "license": "MIT"
+  "license": {
+    "type": "MIT",
+    "url": "https://bitbucket.org/arcticfox/json-socket/src/default/LICENSE"
+  }
 }
