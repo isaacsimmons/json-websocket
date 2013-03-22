@@ -1,6 +1,23 @@
 {
   "name": "json-socket",
-  "description": "JSON Socket. Simple abstraction on top of websockets to send 'typed' JSON messages and subscribe to them by event listeners",
+  "version": "0.0.1",
+  "author": {
+    "name": "Isaac Simmons",
+    "email": "isaac.simmons@gmail.com"
+  },
+  "description": "JSON Socket. Simple abstraction on top of websockets to send 'typed' JSON objects and emit received messages by type.",
+  "keywords": [
+    "json", "websocket", "messaging"
+  ],
+  "homepage": "https://bitbucket.org/arcticfox/json-socket",
+  "bugs": "https://bitbucket.org/arcticfox/json-socket/issues",
+  "main": "./main",
+  "repository": {
+    "type": "hg",
+    "url": "ssh://hg@bitbucket.org/arcticfox/json-socket"
+  },
   "dependencies": {
-  }
+    "websocket": "1.x"
+  },
+  "license": "MIT"
 }
