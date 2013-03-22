@@ -1,5 +1,7 @@
 # JSON WebSocket #
 
+JSON WebSocket is a lightweight wrapper around the [websocket](https://github.com/Worlize/WebSocket-Node) implementation. Event types and objects are automatically translated to and from JSON, and emitted as events when received.
+
 ## Installation ##
 
 Install JsonWebSocket using Node Package Manager (npm):
@@ -51,7 +53,49 @@ Example server (found in `examples/server.js`)
 
 ### Server ###
 
+To create a server, use `require('json-websocket').server(opts);`.
+
+Options:
+ * `httpServer`: A [http.Server](http://nodejs.org/api/http.html#http_class_http_server) object that the websocket will bind to.
+ * `path`: The URL path the websocket will listen on in the server. Defaults to `/`.
+ * `verbose`: Any truthy value will enable debug logging to `console.log`.
+ * `protocol`: Name of the websocket protocol to support. Defaults to `'json-websocket'`.
+ * `maxListeners`: Controls the maximum number of listeners that can be attached to the resulting EventEmitter. Use `0` for unlimited. Defaults to `10`.
+
+This returns an [Event Emitter](http://nodejs.org/api/events.html#events_class_events_emitter) with the following properties:
+
+####Event: 'js:connect'####
+`function (clientId) { }`
+
+Emitted each time a new client successfully connects.
+
+####Event: 'js:disconnect'####
+`function (clientId) { }`
+
+Emitted each time a client disconnects.
+
+####Event: 'js:error'####
+`function (err) { }`
+
+Emitted on errors.
+
+####server.clients####
+
+An object mapping client identifiers to the underlaying websocket connections.
+
+####server.numClients####
+
+The number of currently connected clients.
+
+####server.isReady(clientId)####
+
+Returns `true` if there is a connected client with the given identifier that is in the ready state and has no currently buffered outgoing data, `false` otherwise.
+
+####server.send(clientId, type, ...)####
+
 ### Client ###
+
+### Browser ###
 
 ## Testing ##
 
