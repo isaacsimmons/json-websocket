@@ -19,12 +19,12 @@ server.on('update', function(clientId, value) {
   clients[clientId].push(value);
 });
 
-server.on('js:connect', function(clientId) {
+server.connect.on('connect', function(clientId) {
   clients[clientId] = [];
   server.send(clientId, 'hello', 'Greetings, client #' + clientId, SERVER_VAL);
 });
 
-server.on('js:disconnect', function(clientId) {
+server.connect.on('disconnect', function(clientId) {
   console.log('Client #' + clientId + ' value summary');
   console.log(JSON.stringify(clients[clientId]));
   //TODO: assert zero, SERVER_VAL, 100
@@ -46,7 +46,7 @@ try {
   console.log('Rejected illegal send value');
 }
 
-client.on('js:connect', function() {
+client.connect.on('connect', function() {
   client.send('hello', 'Websocket client here', 0);
 });
 
