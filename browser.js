@@ -2,7 +2,7 @@
 
 var EventEmitter = require('events').EventEmitter;
 
-var util = require('./common.js');
+var util = require('./lib/common.js');
 
 var Client = function(opts) {
   var events = new EventEmitter();
