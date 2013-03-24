@@ -5,53 +5,55 @@
 var http = require('http').createServer();
 var main = require('../lib/main.js');
 
-var SERVER_VAL = new Date().getTime();
-
 var server = main.server({ httpServer: http, verbose: true });
 
-var clients = {};
+server.on('multiply', function(clientId, n1, n2, callback) {
+  var count = n2;
+  server.send(clientId, 'set', n1);
 
-server.on('hello', function(clientId, greeting, value) {
-  clients[clientId].push(value);
-});
+  var handleResponse = function handleResponse(err, value) {
+    count--;
+    if (count === 0) {
+      callback(value); //TODO: always callback error first argument (and give that special toString handling when JSONifying)
+    } else {
+      server.send(clientId, 'add', value, handleResponse);
+    }
+  };
 
-server.on('update', function(clientId, value) {
-  clients[clientId].push(value);
+  if (count > 0) {
+    server.send(clientId, 'add', 0, handleResponse);
+  } else {
+    callback(0);
+  }
 });
 
 server.connect.on('connect', function(clientId) {
-  clients[clientId] = [];
-  server.send(clientId, 'hello', 'Greetings, client #' + clientId, SERVER_VAL);
-});
-
-server.connect.on('disconnect', function(clientId) {
-  console.log('Client #' + clientId + ' value summary');
-  console.log(JSON.stringify(clients[clientId]));
-  //TODO: assert zero, SERVER_VAL, 100
-  delete clients[clientId];
+  server.send(clientId, 'hello', 'Greetings, client #' + clientId);
 });
 
 http.listen();
 var PORT = http.address().port;
 
-var client = main.client({ host: 'localhost', port: PORT, verbose: true });
+var client = main.client({ port: PORT, verbose: true });
+var amount = 1;
 
-client.on('hello', function(greeting, value) {
-  client.send('update', value);
+client.on('set', function(value) {
+  amount = value;
 });
 
-try {
-  client.send('js:illegalValue');
-} catch (err) {
-  console.log('Rejected illegal send value');
-}
+client.on('add', function(value, callback) {
+  callback(value + amount);
+});
 
 client.connect.on('connect', function() {
-  client.send('hello', 'Websocket client here', 0);
+  client.send('hello', 'Websocket client here');
+});
+
+client.send('multiply', 4, 5, function(err, result) {
+  console.log('Server multiplied 4 * 5 and got ' + result);
 });
 
 setTimeout(function() {
-  client.send('update', 100);
   client.disconnect();
   http.close();
 }, 1000);
