@@ -49,6 +49,10 @@ client.connect.on('connect', function() {
   client.send('hello', 'Websocket client here');
 });
 
+client.connect.on('error', function(err) {
+  console.log('FAILED TO CONNECT');
+});
+
 client.send('multiply', 4, 5, function(err, result) {
   console.log('Server multiplied 4 * 5 and got ' + result);
 });
