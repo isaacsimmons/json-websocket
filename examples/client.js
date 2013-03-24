@@ -4,12 +4,12 @@ var main = require('../lib/main');
 
 var client = main.client({ host: 'localhost', port: 8000, verbose: true });
 
-client.on('js:connect', function() {
+client.connect.on('connect', function() {
   client.send('greeting', 'Websocket client here');
 });
 
-client.on('tick', function(serverTime) {
-  //Emitted when the server sends a "tick" event
+client.on('add', function(v1, v2, callback) {
+  callback(v1 + v2);
 });
 
 setTimeout(function() {

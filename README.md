@@ -10,16 +10,16 @@ Install JsonWebSocket using Node Package Manager (npm):
 
 Example client (found in `examples/client.js`)
 
-    var main = require('../lib/main.js');
+    var main = require('../lib/main');
 
     var client = main.client({ host: 'localhost', port: 8000, verbose: true });
 
-    client.on('js:connect', function() {
+    client.connect.on('connect', function() {
       client.send('greeting', 'Websocket client here');
     });
 
-    client.on('tick', function(serverTime) {
-      //Emitted when the server sends a "tick" event
+    client.on('add', function(v1, v2, callback) {
+      callback(v1 + v2);
     });
 
     setTimeout(function() {
@@ -29,19 +29,23 @@ Example client (found in `examples/client.js`)
 Example server (found in `examples/server.js`)
 
     var http = require('http').createServer();
-    var main = require('../lib/main.js');
+    var main = require('../lib/main');
 
     var server = main.server({ httpServer: http, verbose: true });
 
-    server.on('update', function(clientId, value) {
-      //Process "update" event from client here
+    server.on('multiply', function(clientId, v1, v2, callback) {
+      callback(v1 * v2);
     });
 
-    server.on('js:connect', function(clientId) {
+    server.on('tick', function(clientId, time) {
+      //Process "tick" event here
+    });
+
+    server.connect.on('connect', function(clientId) {
       server.send(clientId, 'greet', 'Greetings, client #' + clientId);
     });
 
-    server.on('js:disconnect', function(clientId) {
+    server.connect.on('disconnect', function(clientId) {
       //Client disconnected
     });
 
@@ -178,3 +182,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
