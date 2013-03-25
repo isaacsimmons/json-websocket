@@ -1,2 +1,3 @@
 More fine grained logging control
 Put actual assertions into the test file
+Add a "publish to all" send method
