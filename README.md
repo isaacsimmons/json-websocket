@@ -51,6 +51,24 @@ Example server (found in `examples/server.js`)
 
     http.listen(8000);
 
+Example browser client (from `examples/browser.html`):
+
+Note: You must first build the browser bundle with `./browserify.sh` before this can be used.
+
+    var client = jsonSocket({
+      host: 'localhost',
+      port: 8000,
+      verbose: true
+    });
+
+    client.connect.on('connect', function() {
+      client.send('greeting', 'Websocket client here');
+    });
+
+    client.on('add', function(v1, v2, callback) {
+      callback(v1 + v2);
+    });
+
 # API #
 
 ## Server ##
@@ -153,7 +171,13 @@ Returns `true` if the websocket connection is established, ready, and has no buf
 
 JSON WebSocket can also be used in the browser with no dependency on the node [websocket](https://github.com/Worlize/WebSocket-Node) module relying instead on the browser's implementation.
 
-In order to do this, you should include `./lib/browser.js` using a CommonJS bundler.
+In order to do this, you should include `./lib/browser.js` using a CommonJS bundler. For instance, using browserify `browserify ./lib/browser.js -s jsonSocket -o bundle.js` or simply running the included `./browserify.sh` script. (Note that browserify must be installed on your system globally for this script to work.)
+
+Pointing a web browser to `./examples/browser.html` on the local filesystem after generating the browser bundle will load an empty test page that will attempt to connect to the example server.
+
+The `client` object in the global namespace is the connected json-socket object and the `jsonSocket` function in the global namespace is the method to create additional client sockets.
+
+The client socket object has the same events and methods as the Node JS client object.
 
 # Testing #
 
