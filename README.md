@@ -53,8 +53,6 @@ Example server (found in `examples/server.js`)
 
 Example browser client (from `examples/browser.html`):
 
-Note: You must first build the browser bundle with `./browserify.sh` before this can be used.
-
     var client = jsonSocket({
       host: 'localhost',
       port: 8000,
@@ -68,6 +66,8 @@ Note: You must first build the browser bundle with `./browserify.sh` before this
     client.on('add', function(v1, v2, callback) {
       callback(v1 + v2);
     });
+
+**You must first build the browser bundle with `./browserify.sh` before browser.html will work.**
 
 # API #
 
