@@ -5,49 +5,48 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('./lib/common.js');
 
 var Client = function(opts) {
-  var events = new EventEmitter();
+  var messageEvents = new EventEmitter();
+  var connectEvents = new EventEmitter();
+  var replyEvents = new EventEmitter();
 
   if (opts.maxListeners !== undefined) {
-    events.setMaxListeners(opts.maxListeners);
+    messageEvents.setMaxListeners(opts.maxListeners);
+    connectEvents.setMaxListeners(opts.maxListeners);
   }
+  replyEvents.setMaxListeners(1);
 
   var url = [ 'ws://', opts.host || 'localhost', ':', opts.port || 80, opts.path || '/' ].join('');
   var ws = new WebSocket(url, opts.protocol || 'json-socket');
 
   ws.onopen = function() {
     util.log('Connected to ' + url, opts);
-    events.emit(util.EVENTS.connect);
+    connectEvents.emit('connect');
   };
 
-  ws.onmessage = util.handler(opts, function(parsed) {
-    events.emit.apply(events, parsed);
-  });
+  ws.onmessage = util.receive(messageEvents, ws, replyEvents, opts);
 
   ws.onerror = function(err) {
     util.log('Error connecting to ' + url + ': ' + err.toString(), opts);
-    events.emit(util.EVENTS.error);
+    connectEvents.emit('error', err);
   };
 
   ws.onclose = function() {
     util.log('Websocket disconnected', opts);
-    events.emit(util.EVENTS.disconnect);
+    connectEvents.emit('disconnect');
   };
 
-  events.send = function(type) {
-    util.check(type, opts);
-    ws.send(JSON.stringify(Array.prototype.slice.call(arguements)));
-  };
+  messageEvents.send = util.send(ws, replyEvents, opts);
 
-  events.disconnect = function() {
+  messageEvents.disconnect = function() {
     util.log('Disconnecting from websocket', opts);
     ws.close();
   };
 
-  events.isReady = function() {
+  messageEvents.isReady = function() {
     return ws.bufferedAmount === 0; //TODO: also factor "readyState" in?
   };
 
-  return events;
+  return messageEvents;
 };
 
 module.exports = Client;
