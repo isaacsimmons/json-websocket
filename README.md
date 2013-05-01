@@ -171,7 +171,11 @@ Returns `true` if the websocket connection is established, ready, and has no buf
 
 JSON WebSocket can also be used in the browser with no dependency on the node [websocket](https://github.com/Worlize/WebSocket-Node) module relying instead on the browser's implementation.
 
-In order to do this, you should include `./lib/browser.js` using a CommonJS bundler. For instance, using [browserify](http://browserify.org/) `browserify ./lib/browser.js -s jsonSocket -o bundle.js` or simply running the included `./browserify.sh` script. (Note that browserify must be installed on your system globally for this script to work.)
+In order to do this, you should include `./lib/browser.js` using a CommonJS bundler. For instance, using [browserify](http://browserify.org/):
+
+    browserify ./lib/browser.js -s jsonSocket -o bundle.js
+    
+or simply running the included `./browserify.sh` script. (Note that browserify must be installed on your system globally for this script to work.)
 
 Pointing a web browser to `./examples/browser.html` on the local filesystem after generating the browser bundle will load an empty test page that will attempt to connect to the example server.
 
