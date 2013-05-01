@@ -2,6 +2,24 @@
 <html>
   <head>
     <title></title>
-    <script src="bundle.js"></script>
+    <script src="../bundle.js"></script>
+    <script>
+      'use strict';
+
+      var client = jsonSocket({
+        host: 'localhost',
+        port: 8000,
+        verbose: true
+      });
+
+      client.connect.on('connect', function() {
+        client.send('greeting', 'Websocket client here');
+      });
+
+      client.on('add', function(v1, v2, callback) {
+        callback(v1 + v2);
+      });
+    </script>
   </head>
 </html>
+
