@@ -1,1 +1,1 @@
-browserify browser.js -s jsonSocket -o test/bundle.js
+browserify ./lib/browser.js -s jsonSocket -o bundle.js
