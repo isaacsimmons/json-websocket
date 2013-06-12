@@ -9,9 +9,7 @@
   "keywords": [
     "json", "websocket", "messaging"
   ],
-  "homepage": {
-    "url": "https://bitbucket.org/arcticfox/json-websocket"
-  },
+  "homepage": "https://bitbucket.org/arcticfox/json-websocket",
   "bugs": {
     "url": "https://bitbucket.org/arcticfox/json-websocket/issues"
   },
