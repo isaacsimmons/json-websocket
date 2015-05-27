@@ -9,14 +9,14 @@
   "keywords": [
     "json", "websocket", "messaging"
   ],
-  "homepage": "https://bitbucket.org/arcticfox/json-websocket",
+  "homepage": "https://github.com/isaacsimmons/json-websocket",
   "bugs": {
-    "url": "https://bitbucket.org/arcticfox/json-websocket/issues"
+    "url": "https://github.com/isaacsimmons/json-websocket/issues"
   },
   "main": "./lib/main",
   "repository": {
-    "type": "hg",
-    "url": "https://bitbucket.org/arcticfox/json-websocket"
+    "type": "git",
+    "url": "https://github.com/isaacsimmons/json-websocket.git"
   },
   "scripts": {
     "test": "test/test.js"
@@ -26,6 +26,6 @@
   },
   "license": {
     "type": "MIT",
-    "url": "https://bitbucket.org/arcticfox/json-websocket/src/default/LICENSE"
+    "url": "https://github.com/isaacsimmons/json-websocket/blob/master/LICENSE"
   }
 }
